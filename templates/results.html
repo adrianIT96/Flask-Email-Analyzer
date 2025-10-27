@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Sorter Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-950 min-h-screen flex flex-col items-center justify-center p-6 text-gray-200 transition-colors duration-500">
+
+  <div class="bg-gray-800 shadow-2xl shadow-indigo-500/50 rounded-2xl p-8 w-full max-w-5xl">
+    
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 text-center">📧 Email Analysis Results</h2>
+
+    <div class="flex justify-between items-center mb-4">
+      
+      <a href="/" class="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition shadow-md shadow-indigo-500/50">
+        ⬅️ Back to Upload
+      </a>
+      
+      <a href="/download_csv" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition shadow-md shadow-green-500/50">
+        ⬇️ Download CSV
+      </a>
+      
+    </div>
+
+    <h3 class="text-lg font-semibold text-gray-400 mb-2">Summary by Category:</h3>
+
+    <div class="flex justify-center mb-6">
+      <canvas id="categoryChart" width="400" height="200"></canvas>
+    </div>
+
+    <table class="min-w-full mb-6 border border-gray-700 text-center">
+      <thead class="bg-gray-700 text-indigo-300">
+        <tr>
+          <th class="py-2 px-4 border border-gray-700">Category</th>
+          <th class="py-2 px-4 border border-gray-700">Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category, count in stats.items() %}
+        <tr class="odd:bg-gray-800 even:bg-gray-700 hover:bg-gray-600 transition">
+          <td class="py-2 px-4 border border-gray-700 font-semibold">{{ category }}</td>
+          <td class="py-2 px-4 border border-gray-700">{{ count }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3 class="text-lg font-semibold text-gray-400 mb-2">Detailed Emails:</h3>
+    
+    <table class="min-w-full border border-gray-700 text-sm">
+      <thead class="bg-gray-700 text-indigo-300">
+        <tr>
+          <th class="py-3 px-3 border border-gray-700">File</th>
+          <th class="py-3 px-3 border border-gray-700">Date</th>
+          <th class="py-3 px-3 border border-gray-700">Sender</th>
+          <th class="py-3 px-3 border border-gray-700">Subject</th>
+          <th class="py-3 px-3 border border-gray-700">Category</th>
+          <th class="py-3 px-3 border border-gray-700 w-[150px]">Suspicion Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        {% set row_bg_class = 'bg-red-900/50 hover:bg-red-800/50' if result.score > 70 
+                              else ('bg-yellow-900/50 hover:bg-yellow-800/50' if result.score > 30 
+                              else 'odd:bg-gray-800 even:bg-gray-700 hover:bg-gray-600') %}
+        
+        <tr class="{{ row_bg_class }} transition">
+          <td class="py-2 px-3 border border-gray-700">{{ result['Filename'] }}</td>
+          <td class="py-2 px-3 border border-gray-700">{{ result['Date'] }}</td>
+          
+          <td class="py-2 px-3 border border-gray-700 truncate max-w-[150px] flex items-center">
+            {% set parts = result['Sender'].split('@') %}
+            {% set sender_domain = parts[-1].strip() %}
+            
+            {% if parts|length > 1 %}
+                <img src="https://logo.clearbit.com/{{ sender_domain }}?size=16" 
+                     alt="{{ sender_domain }}" 
+                     class="inline-block mr-2 rounded"
+                     onerror="this.style.display='none'">
+            {% endif %}
+            <span class="truncate">{{ result['Sender'] }}</span>
+          </td>
+          
+          <td class="py-2 px-3 border border-gray-700 truncate max-w-[250px]">{{ result['Subject'] }}</td>
+          
+          <td class="py-2 px-3 border border-gray-700">
+            <span class="px-2 py-1 rounded-full text-xs font-semibold
+              {% if result['Category'] == 'Shops' %} bg-yellow-900 text-yellow-300
+              {% elif result['Category'] == 'Banks' %} bg-green-900 text-green-300
+              {% elif result['Category'] == 'Social' %} bg-pink-900 text-pink-300
+              {% elif result['Category'] == 'Spam' %} bg-red-700 text-white
+              {% else %} bg-gray-600 text-gray-300 {% endif %}">
+              {{ result['Category'] }}
+            </span>
+          </td>
+          
+          <td class="py-2 px-3 border border-gray-700">
+              <div class="w-full bg-gray-600 rounded-full h-2.5 relative">
+                  {% set score_width = result.score %}
+                  {% set score_color = 'bg-red-500' if result.score > 70 else ('bg-yellow-400' if result.score > 30 else 'bg-green-400') %}
+                  <div class="{{ score_color }} h-2.5 rounded-full" style="width: {{ score_width }}%"></div>
+              </div>
+              <span class="text-xs font-semibold mt-1 block text-gray-400">{{ result.score }} / 100</span>
+          </td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Farby grafu pre tmavé pozadie
+    const primaryColor = '#a78bfa'; // Svetlá fialová pre nadpis
+    const legendColor = '#d1d5db'; // Svetlá šedá pre legendu
+    
+    const ctx = document.getElementById('categoryChart').getContext('2d');
+    
+    // Zmeňte farby koláčového grafu na živé, neónové farby
+    const chartData = {
+      labels: {{ stats.keys()|list|tojson | safe }},
+      datasets: [{
+        label: 'Email Categories',
+        data: {{ stats.values()|list|tojson | safe }},
+        backgroundColor: [
+          '#6366f1', // Indigo
+          '#10b981', // Emerald
+          '#facc15', // Amber
+          '#f472b6', // Pink
+          '#a855f7', // Violet
+          '#f97316', // Orange
+          '#22d3ee', // Cyan
+          '#ef4444', // Red
+          '#6b7280'  // Gray
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    new Chart(ctx, {
+      type: 'pie',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: legendColor, font: { size: 14 } }
+          },
+          title: {
+            display: true,
+            text: 'Emails by Category',
+            color: primaryColor,
+            font: { size: 16, weight: 'bold' }
+          }
+        }
+      }
+    });
+
+  </script>
+
+</body>
+</html>

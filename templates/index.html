@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Sorter Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-950 min-h-screen flex flex-col items-center justify-center p-6 text-gray-200">
+
+    <div class="bg-gray-800 shadow-2xl shadow-indigo-500/50 rounded-2xl p-8 w-full max-w-sm">
+        
+        <div class="text-center mb-6">
+            <span class="text-4xl text-indigo-400 block mb-2">📧</span>
+            
+            <h1 class="text-2xl font-bold text-indigo-400">Email Sorter Web</h1>
+            
+            <p class="text-gray-400 mt-2">
+                Upload your <code class="bg-gray-700 p-1 rounded text-sm text-green-400">.eml</code> files and let the app analyze them.
+            </p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" action="/">
+            
+            <input 
+                type="file" 
+                id="file-input" 
+                name="files" 
+                multiple 
+                accept=".eml" 
+                class="hidden"
+                onchange="updateFileCount(this.files)"
+            >
+            
+            <div class="flex justify-between items-center mb-6">
+                
+                <label 
+                    for="file-input" 
+                    class="cursor-pointer bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition shadow-md shadow-indigo-500/50"
+                >
+                    Vybrať súbory
+                </label>
+                
+                <span id="file-count" class="text-gray-300 font-semibold">
+                    Počet súborov: 0
+                </span>
+            </div>
+
+            <button 
+                type="submit" 
+                class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition shadow-lg shadow-indigo-500/50 disabled:opacity-50"
+                id="analyze-button"
+                disabled
+            >
+                Upload & Analyze
+            </button>
+            
+        </form>
+    </div>
+
+    <script>
+        const fileCountSpan = document.getElementById('file-count');
+        const analyzeButton = document.getElementById('analyze-button');
+
+        function updateFileCount(files) {
+            const count = files.length;
+            fileCountSpan.textContent = `Počet súborov: ${count}`;
+            
+            // Aktivuje tlačidlo len ak je vybraný aspoň jeden súbor
+            if (count > 0) {
+                analyzeButton.disabled = false;
+            } else {
+                analyzeButton.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>

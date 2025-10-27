@@ -1,0 +1,15 @@
+# Ignoruje virtuálne prostredie
+venv/
+.env
+
+# Ignoruje skompilované a dočasné súbory Pythonu
+__pycache__/
+*.pyc
+
+# Ignoruje súbory menené aplikáciou (DÔLEŽITÉ pre nás: uploads a session)
+uploads/
+*.csv
+*.session
+
+# Ignoruje súbory OS
+.DS_Store
