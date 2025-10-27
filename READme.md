@@ -5,7 +5,26 @@ This web application, built with **Flask (Python)**, is designed for the bulk an
 
 The frontend utilizes **Tailwind CSS** to achieve a modern, dark, and visually striking **"Cyberpunk"** aesthetic, making the data presentation engaging and professional.
 
-![Project Screenshot - Results Page](screenshots/results.png)
+## 🖼️ Visual Overview
+
+This section showcases the application's modern, dark UI and its core functionalities.
+
+### 1. Analysis Results (Detailed Table and Chart)
+This screenshot displays the final analysis results, including the category chart and the detailed table with Suspicion Scores.
+![Analysis Results Page](screenshots/results.PNG)
+
+### 2. Upload Page (The Entry Point)
+The clean, dark-themed upload interface for submitting multiple .eml files.
+![Upload Screen](screenshots/EmailCleaner2.PNG)
+
+### 3. Category Breakdown (Pie Chart Visualization)
+An example showing the interactive pie chart visualization for email category distribution.
+![Pie Chart Example](screenshots/EmailCleaner3.PNG)
+
+### 4. Detailed Data View (Table and Scoring)
+A view of the detailed data table featuring color-coded categories and the Suspicion Score progress bars.
+![Detailed Table View](screenshots/EmailCleaner4.PNG)
+
 ---
 
 ## ✨ Key Features
