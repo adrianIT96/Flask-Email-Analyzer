@@ -5,7 +5,7 @@ This web application, built with **Flask (Python)**, is designed for the bulk an
 
 The frontend utilizes **Tailwind CSS** to achieve a modern, dark, and visually striking **"Cyberpunk"** aesthetic, making the data presentation engaging and professional.
 
-![Project Screenshot - Results Page](https://raw.githubusercontent.com/adrianIT96/Flask-Email-Analyzer/main/screenshots/results.png)
+![Project Screenshot - Results Page](screenshots/results.png)
 ---
 
 ## ✨ Key Features
