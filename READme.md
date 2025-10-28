@@ -13,13 +13,13 @@ This section showcases the application's modern, dark UI and its core functional
 The clean, dark-themed upload interface for submitting multiple .eml files.
 ![Upload Screen](screenshots/results.PNG)
 
-### 2. Analysis Results (Detailed Table and Chart)
-This screenshot displays the final analysis results, including the category chart and the detailed table with Suspicion Scores.
-![Analysis Results Page](screenshots/EmailCleaner3.PNG)
-
-### 3. Category Breakdown (Pie Chart Visualization)
+### 2. Category Breakdown (Pie Chart Visualization)
 An example showing the interactive pie chart visualization for email category distribution.
 ![Pie Chart Example](screenshots/EmailCleaner2.PNG)
+
+### 3. Analysis Results (Detailed Table and Chart)
+This screenshot displays the final analysis results, including the category chart and the detailed table with Suspicion Scores.
+![Analysis Results Page](screenshots/EmailCleaner3.PNG)
 
 ### 4. Detailed Data View (Table and Scoring)
 A view of the detailed data table featuring color-coded categories and the Suspicion Score progress bars.
