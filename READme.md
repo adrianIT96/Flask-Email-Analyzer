@@ -9,13 +9,13 @@ The frontend utilizes **Tailwind CSS** to achieve a modern, dark, and visually s
 
 This section showcases the application's modern, dark UI and its core functionalities.
 
-### 1. Analysis Results (Detailed Table and Chart)
-This screenshot displays the final analysis results, including the category chart and the detailed table with Suspicion Scores.
-![Analysis Results Page](screenshots/results.PNG)
-
-### 2. Upload Page (The Entry Point)
+### 1. Upload Page (The Entry Point)
 The clean, dark-themed upload interface for submitting multiple .eml files.
 ![Upload Screen](screenshots/EmailCleaner2.PNG)
+
+### 2. Analysis Results (Detailed Table and Chart)
+This screenshot displays the final analysis results, including the category chart and the detailed table with Suspicion Scores.
+![Analysis Results Page](screenshots/results.PNG)
 
 ### 3. Category Breakdown (Pie Chart Visualization)
 An example showing the interactive pie chart visualization for email category distribution.
